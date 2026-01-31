@@ -25,7 +25,7 @@ const queue = new Queue('LLM_INFERENCE', {
  * Action - TEXT_GENERATION
  */
 
-app.post('/api/v1/chat', async (req, res) => {
+app.post('/api/v1/req', async (req, res) => {
     const { message } = req.body;
 
     const job = await queue.add("TEXT_GENERATION", {
