@@ -17,9 +17,8 @@
 - **LLM-Model**-
   - Mistral7B Q4 because i plan to use this inference pipeline in future for my own use case.
   - Also i needed to experience CPU stress and learn memory / latency trafeoffs, observe degradation under load.
-- **MongoDB**-
-  - MongoDB for storing structured logs.
-  - I am storng in mongoDB + nodeJS combo so.
+- **Elastic + Kibana**-
+  - Elastic + kibana to build dashboards because i know these.
 
 # Data flow
 

@@ -1,4 +1,4 @@
-# Roadmap
+# Development milestone
 
 ## Phase 1 – Baseline Inference
 
@@ -46,3 +46,35 @@
 
 ## Metrics system
 
+# Learnings
+
+## Docker
+
+- docker network create llm-network
+- docker ps
+- docker logs
+- docker run -d --name container_name -p port:port --network docker_network_name image_name
+- docker stop container_name
+- docker rm container_name
+- docker network ls
+- docker network inspect network_name
+- docker network ls
+- docker exec -it image_name bash
+- docker exec -it image_name sh
+- docker images
+- docker images ls
+- docker pull image_name
+- docker pull docker.image_name
+- docker rmi image_name
+- docker rmi -f image_name
+- docker build -t image_name
+- docker run -it --name container_name ubuntu:22.04
+- docker commit conatiner_name image_name
+- docker rm -f $(docker ps -aq)
+- docker rmi -f $(docke images -q)
+- docker start $(docker ps -aq)
+- docker stop $(docker ps -q)
+- docker system prune -a
+- docker history container_name
+- docker tag existing_image_tag new_image_gona_tagged
+- docker image prune

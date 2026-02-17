@@ -29,13 +29,40 @@ const queue = new Queue('LLM_INFERENCE', {
 app.post('/api/v1/req', async (req, res) => {
     const { prompt } = req.body;
 
-    const job = await queue.add("TEXT_GENERATION", {
-        prompt: prompt
-    });
+    try {
+        const job = await queue.add("TEXT_GENERATION", {
+            prompt: prompt
+        });
 
-    return res.json({
-        message: `Request enqueued successfully - id: ${job.id}, data: ${JSON.stringify(job.data)}`
-    });
+        await fetch(`http://${process.env.ELASTIC_HOST}:${process.env.ELASTIC_PORT}/api/v1/metrics/elastic`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                index: "cpu-inference",
+                id: job.id,
+                document: {
+                    jobId: job.id,
+                    event: "REQUEST_ENQUEUED",
+                    data: {
+                        prompt: prompt.length
+                    },
+                    "@timestamp": new Date().toISOString(),
+                },
+                update: false
+            })
+        });
+
+        return res.json({
+            message: `Request enqueued successfully - id: ${job.id}, data: ${JSON.stringify(job.data)}`
+        });
+    } catch (error) {
+        console.log(`[MAIN] - Error enqueuing request:${error}`);
+        return res.status(500).json({
+            error: `Error enqueuing Request - ${error}`
+        });
+    }
 });
 
 app.listen(PORT, () => {
