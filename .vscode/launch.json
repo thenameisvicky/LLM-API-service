@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run Main",
+            "name": "Server",
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "npx",
@@ -24,7 +24,7 @@
             }
         },
         {
-            "name": "Run Consumer",
+            "name": "Queue Consumer",
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "npx",
@@ -42,50 +42,6 @@
                 "INFERENCE_PORT": "11434",
                 "ELASTIC_HOST": "127.0.0.1",
                 "ELASTIC_PORT": "5000"
-            }
-        },
-        {
-            "name": "Run Prometheus",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "npx",
-            "runtimeArgs": [
-                "ts-node",
-                "dist/metrics/prometheus/server.js"
-            ],
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "env": {
-                "REDIS_HOST": "127.0.0.1",
-                "REDIS_PORT": "6379",
-                "INFERENCE_HOST": "127.0.0.1",
-                "INFERENCE_PORT": "11434",
-                "PORT": "9095",
-                "ELASTIC_HOST": "127.0.0.1",
-                "ELASTIC_PORT": "9200"
-            }
-        },
-        {
-            "name": "Run Elastic",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "npx",
-            "runtimeArgs": [
-                "ts-node",
-                "dist/metrics/elastic.js"
-            ],
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "env": {
-                "REDIS_HOST": "127.0.0.1",
-                "REDIS_PORT": "6379",
-                "INFERENCE_HOST": "127.0.0.1",
-                "INFERENCE_PORT": "11434",
-                "ELASTIC_HOST": "127.0.0.1",
-                "ELASTIC_PORT": "9200",
-                "PORT": "5000"
             }
         }
     ]

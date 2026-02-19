@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  # Only build these two from your local Dockerfile
+  main-server:
+    build: .
+    container_name: main-server
+    environment:
+      - PORT=3000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - INFERENCE_HOST=ollama
+      - INFERENCE_PORT=11434
+      - ENTRYPOINT=dist/server.js
+    ports:
+      - "3000:3000"
+    networks:
+      - llm-network
+
+  consumer:
+    build: .
+    container_name: consumer
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - INFERENCE_HOST=ollama
+      - INFERENCE_PORT=11434
+      - ENTRYPOINT=dist/queue/server.js
+    ports:
+      - "3001:3001"
+    networks:
+      - llm-network
+
+  # Existing containers — just attach to network, don’t rebuild
+  redis:
+    container_name: redis
+    image: redis:7
+    networks:
+      - llm-network
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    networks:
+      - llm-network
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    networks:
+      - llm-network
+
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter
+    networks:
+      - llm-network
+
+networks:
+  llm-network:
+    external: true
